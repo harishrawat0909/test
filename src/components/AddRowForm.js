@@ -25,11 +25,12 @@ class AddRowForm extends Component {
             hobby : this.state.hobby
         }
         this.props.addRowToArray(userdata)
+        document.getElementById('addRowForm').reset()
     }
 
     render() {
         return (
-            <form onSubmit={this.submitRow} className="form-inline">
+            <form onSubmit={this.submitRow} className="form-inline" id="addRowForm">
                 <div className="form-group">
                     <input 
                         type="text"

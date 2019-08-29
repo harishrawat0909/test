@@ -22,17 +22,25 @@ class Table extends Component {
         })
     }
 
+    sortByName = () => {
+       this.state.data.sort((d1, d2) => {
+            //(d1 > d2) ? 1 : -1
+        })
+    }
+
     render() {
         return (
             <React.Fragment>
                 <AddRowForm addRowToArray={this.addRowToArray}/>
                 <table className="table" border="1">
                     <thead>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>Hobby</th>
-                        <th>Action</th>
+                        <tr>
+                            <th>#</th>
+                            <th><i className="fa fa-sort" onClick={this.sortByName}></i> Name</th>
+                            <th>Age</th>
+                            <th>Hobby</th>
+                            <th>Action</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {
