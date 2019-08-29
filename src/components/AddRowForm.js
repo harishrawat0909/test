@@ -5,24 +5,26 @@ class AddRowForm extends Component {
     constructor() {
         super()
         this.state = {
-            name : '',
-            hobby: '',
-            age : ''
+            data : {
+                name : '',
+                hobby: '',
+                age : ''
+            }
         }
     }
 
     getFieldValue = (e) => {
         this.setState({
-            [e.target.name] : e.target.value
+            data: {...this.state.data, [e.target.name] : e.target.value}
         })
     }
 
     submitRow = (e) => {
         e.preventDefault()
         const userdata = {
-            name : this.state.name,
-            age : this.state.age,
-            hobby : this.state.hobby
+            name : this.state.data.name,
+            age : this.state.data.age,
+            hobby : this.state.data.hobby
         }
         this.props.addRowToArray(userdata)
         document.getElementById('addRowForm').reset()

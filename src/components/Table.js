@@ -8,11 +8,13 @@ class Table extends Component {
         super()
         this.state = {
             data : [
-                        {name: "ABC", age: 18, hobby: "Reading"},
+                        {name: "ABC", age: 28, hobby: "Reading"},
                         {name: "DEF", age: 19, hobby: "Travelling"},
-                        {name: "GHI", age: 20, hobby: "Football"},
+                        {name: "GHI", age: 50, hobby: "Football"},
                         {name: "JKL", age: 21, hobby: "Cricket"},
-                    ]
+                    ],
+            sortType : ''
+
         }
     }
 
@@ -22,10 +24,23 @@ class Table extends Component {
         })
     }
 
-    sortByName = () => {
-       this.state.data.sort((d1, d2) => {
-            //(d1 > d2) ? 1 : -1
+    sorter = (type, change) => {
+        const data = this.state.data.sort((d1, d2) => {
+            if(type=='ASC') return d1.age - d2.age
+            else return d2.age - d1.age
         })
+        this.setState({
+            data : data,
+            sortType : change
+        })
+    }
+
+    sortByName = () => {
+        if (this.state.sortType == 'ASC') {
+            this.sorter('ASC', 'DESC')
+        } else {
+            this.sorter('DESC', 'ASC')
+        }
     }
 
     render() {
@@ -37,7 +52,7 @@ class Table extends Component {
                         <tr>
                             <th>#</th>
                             <th><i className="fa fa-sort" onClick={this.sortByName}></i> Name</th>
-                            <th>Age</th>
+                            <th><i className="fa fa-sort" onClick={this.sortByName}></i> Age</th>
                             <th>Hobby</th>
                             <th>Action</th>
                         </tr>
