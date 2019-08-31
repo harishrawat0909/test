@@ -1,36 +1,26 @@
 import React, {Component} from 'react'
 import AddRowForm from './AddRowForm';
 import Row from './Row'
+import {connect} from 'react-redux'
+import fetchUsers from '../actions/fetchUsers'
+//import SweetAlert from 'react-bootstrap-sweetalert'
 
 class Table extends Component {
 
     constructor() {
         super()
         this.state = {
-            data : [
-                        {name: "ABC", age: 28, hobby: "Reading"},
-                        {name: "DEF", age: 19, hobby: "Travelling"},
-                        {name: "GHI", age: 50, hobby: "Football"},
-                        {name: "JKL", age: 21, hobby: "Cricket"},
-                    ],
-            sortType : ''
-
+            sortType : '',
+            showmodal : false,
         }
     }
 
-    addRowToArray = (userdata) => {
-        this.setState({
-            data : [...this.state.data, userdata]
-        })
-    }
-
     sorter = (type, change) => {
-        const data = this.state.data.sort((d1, d2) => {
+        this.props.data.sort((d1, d2) => {
             if(type=='ASC') return d1.age - d2.age
             else return d2.age - d1.age
         })
         this.setState({
-            data : data,
             sortType : change
         })
     }
@@ -46,22 +36,21 @@ class Table extends Component {
     render() {
         return (
             <React.Fragment>
-                <AddRowForm addRowToArray={this.addRowToArray}/>
+                <AddRowForm/>
                 <table className="table" border="1">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th><i className="fa fa-sort" onClick={this.sortByName}></i> Name</th>
                             <th><i className="fa fa-sort" onClick={this.sortByName}></i> Age</th>
-                            <th>Hobby</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            this.state.data.map((d, index) => {
+                            this.props.data.map((d, index) => {
                                 return (
-                                    <Row {...d} index={index} key={index}/>
+                                    <Row {...d} index={index} key={index} updateUser={this.updateUser}/>
                                 )
                             })
                         }
@@ -72,4 +61,10 @@ class Table extends Component {
     }
 }
 
-export default Table
+const mapDispatchToProps = (state) => {
+    return {
+        data : state.data.users
+    }
+}
+
+export default connect(mapDispatchToProps, fetchUsers)(Table)
